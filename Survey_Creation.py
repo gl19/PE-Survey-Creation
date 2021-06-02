@@ -3,14 +3,11 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from sys import platform
 import os
 import csv
 
-# Reads CSV file and sorts students by groups
 def sort_groups_csv(file):
     group_dict = {}
-
     with open(file) as csv_file:
         csv_reader = csv.reader(csv_file)
         next(csv_reader)
@@ -174,7 +171,8 @@ if __name__ == "__main__":
         "Then rename the project in the pop-up window and navigate to the project.\n"\
         "Remember: The title should be 'Peer Evaluation for Course Title (semester year).'\n"\
         "Ex. Peer Evaluation for Program Capstone (Fall 2017).\n\n"\
-        "Once you are done, please press ENTER in this window.\n")
+        "Once you are done, please press ENTER in this window.\n"
+    )
     
     edit_default_question_block(driver)
     delete_extra_blocks(driver, group_dict)
