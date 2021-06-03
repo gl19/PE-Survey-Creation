@@ -169,8 +169,8 @@ if __name__ == "__main__":
     input(
         f"Please select the correct template with more than {len(group_dict.keys())} groups.\n"\
         "Then rename the project in the pop-up window and navigate to the project.\n"\
-        "Remember: The title should be 'Peer Evaluation for Course Title (semester year).'\n"\
-        "Ex. Peer Evaluation for Program Capstone (Fall 2017).\n\n"\
+        "Remember: The title should be 'Teammate Evaluation for Course Title (semester year).'\n"\
+        "Ex. Teammate Evaluation for Program Capstone (Fall 2017).\n\n"\
         "Once you are done, please press ENTER in this window.\n"
     )
     
