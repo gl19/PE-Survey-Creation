@@ -23,8 +23,8 @@ def sort_groups_csv(file):
 
 def edit_default_question_block(driver):
     wait = WebDriverWait(driver, 30)
-    survey_title = driver.find_element_by_xpath("//textarea[@class='_3ReJ_ _3tAnf SurveyNameInput']").text
-    default_question_block = driver.find_element_by_xpath("//button[@class='BlockExpander _Bog7Z']")
+    survey_title = driver.find_element_by_xpath("//textarea[contains(@class, 'SurveyNameInput')]").text
+    default_question_block = driver.find_element_by_xpath("//button[contains(@class, 'BlockExpander')]")
     try:
         default_question_block.click()
     except:
@@ -50,7 +50,7 @@ def delete_extra_blocks(driver, group_dict):
         except:
             standard_blocks[-1].click()
 
-        menu_buttons = driver.find_elements_by_xpath("//button[@class='BlockMenuButton _Bog7Z']")
+        menu_buttons = driver.find_elements_by_xpath("//button[contains(@class, 'BlockMenuButton')]")
         menu_buttons[-1].click()
         wait.until(EC.element_to_be_clickable((By.ID, "block-menu-delete")))
         delete_option = driver.find_element_by_id("block-menu-delete")
@@ -58,7 +58,7 @@ def delete_extra_blocks(driver, group_dict):
         delete_button = driver.find_element_by_xpath("//a[@class='btn btn-danger']")
         delete_button.click()
         wait.until(EC.invisibility_of_element_located((By.XPATH, "//a[@class='btn btn-hover']")))
-        wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@class='BlockExpander _Bog7Z']")))
+        wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(@class, 'BlockExpander')]")))
 
 def edit_group_blocks(driver, group_dict):
     wait = WebDriverWait(driver, 30)
@@ -66,16 +66,16 @@ def edit_group_blocks(driver, group_dict):
     edit_names = driver.find_elements_by_xpath("//span[@class='BlockTitle Editable']")
     group_names = list(group_dict.keys())
     original_num_blocks = len(standard_blocks)
-    arrow_buttons = driver.find_elements_by_xpath("//button[@class='BlockExpander _Bog7Z']")
+    arrow_buttons = driver.find_elements_by_xpath("//button[contains(@class, 'BlockExpander')]")
 
     if original_num_blocks < len(group_names):
         raise Exception("More groups than available blocks")
 
     for i in range(len(group_names)):
         try:
-            arrow_buttons[2 * (i + 1)].click()
+            arrow_buttons[i + 1].click()
         except:
-            arrow_buttons[2 * (i + 1)].click()
+            arrow_buttons[i + 1].click()
         
         edit_names[i + 1].click()
         wait.until(EC.presence_of_element_located((By.ID, "InlineEditorElement")))
@@ -99,9 +99,9 @@ def edit_group_blocks(driver, group_dict):
         # Clicks off of the question
         driver.find_element_by_xpath("//body").click()
         try:
-            arrow_buttons[2 * (i + 1)].click()
+            arrow_buttons[i + 1].click()
         except:
-            arrow_buttons[2 * (i + 1)].click()
+            arrow_buttons[i + 1].click()
 
 def edit_survey_flow(driver, group_dict):
     wait = WebDriverWait(driver, 30)
@@ -159,7 +159,7 @@ if __name__ == "__main__":
     group_dict = sort_groups_csv("examplemailinglist.csv")
 
     options = webdriver.ChromeOptions()
-    options.add_argument("--kiosk")
+    options.add_argument("--start-maximized")
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
 
     abs_driver_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "chromedriver")
