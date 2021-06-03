@@ -1,2 +1,2 @@
-# PE-Survey-Creation
-A Selenium script to automate peer evaluation survey creation in Qualtrics.
+# TE-Survey-Creation
+A Selenium script to automate teammate evaluation survey creation in Qualtrics.
