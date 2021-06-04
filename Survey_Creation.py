@@ -8,7 +8,7 @@ import csv
 
 def sort_groups_csv(file):
     group_dict = {}
-    with open(file) as csv_file:
+    with open(file, encoding = "ISO-8859-1") as csv_file:
         csv_reader = csv.reader(csv_file)
         next(csv_reader)
         for row in csv_reader:
