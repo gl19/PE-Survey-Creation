@@ -41,7 +41,7 @@ def edit_default_question_block(driver):
     return survey_title
 
 def delete_extra_blocks(driver, group_dict):
-    wait = WebDriverWait(driver, 30)
+    wait = WebDriverWait(driver, 100)
     standard_blocks = driver.find_elements_by_xpath("//div[div[@class='BlockHeader StandardBlock']]")
     for i in range(len(standard_blocks) - len(group_dict.keys())):
         standard_blocks = driver.find_elements_by_xpath("//div[div[@class='BlockHeader StandardBlock']]")
@@ -55,15 +55,14 @@ def delete_extra_blocks(driver, group_dict):
         wait.until(EC.element_to_be_clickable((By.ID, "block-menu-delete")))
         delete_option = driver.find_element_by_id("block-menu-delete")
         delete_option.click()
-        delete_button = driver.find_element_by_xpath("//a[@class='btn btn-danger']")
+        delete_button = driver.find_element_by_xpath("//button[@class='btn btn-danger']")
         delete_button.click()
-        wait.until(EC.invisibility_of_element_located((By.XPATH, "//a[@class='btn btn-hover']")))
+        wait.until(EC.invisibility_of_element_located((By.XPATH, "//button[@class='btn btn-hover']")))
         wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(@class, 'BlockExpander')]")))
 
 def edit_group_blocks(driver, group_dict):
-    wait = WebDriverWait(driver, 30)
     standard_blocks = driver.find_elements_by_xpath("//div[div[@class='BlockHeader StandardBlock']]")
-    edit_names = driver.find_elements_by_xpath("//span[@class='BlockTitle Editable']")
+    edit_names = driver.find_elements_by_xpath("//span[@aria-label='Block Name']")
     group_names = list(group_dict.keys())
     original_num_blocks = len(standard_blocks)
     arrow_buttons = driver.find_elements_by_xpath("//button[contains(@class, 'BlockExpander')]")
@@ -77,11 +76,13 @@ def edit_group_blocks(driver, group_dict):
         except:
             arrow_buttons[i + 1].click()
         
-        edit_names[i + 1].click()
-        wait.until(EC.presence_of_element_located((By.ID, "InlineEditorElement")))
-        text_box = driver.find_element_by_id("InlineEditorElement")
-        text_box.clear()
-        text_box.send_keys(str(group_names[i]))
+        try:
+            edit_names[i + 1].click()
+        except:
+            edit_names[i + 1].click()
+        
+        edit_names[i + 1].clear()
+        edit_names[i + 1].send_keys(str(group_names[i]))
         names_entry = driver.find_elements_by_xpath("//span[@class='LabelWrapper']")
         try:
             names_entry[-1].click()
@@ -137,7 +138,7 @@ def edit_survey_flow(driver, group_dict):
                 delete_buttons[-1].click()
             except:
                 delete_buttons[-1].click()
-            yes_button = driver.find_element_by_xpath("//a[@class='btn positive']")
+            yes_button = driver.find_element_by_xpath("//button[@class='btn positive']")
             yes_button.click()
 
     # This statement is to get the last ok button in view
@@ -159,7 +160,7 @@ if __name__ == "__main__":
     group_dict = sort_groups_csv("examplemailinglist.csv")
 
     options = webdriver.ChromeOptions()
-    options.add_argument("--kiosk")
+    # options.add_argument("--kiosk")
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
 
     abs_driver_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "chromedriver")
