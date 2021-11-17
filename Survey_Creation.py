@@ -160,7 +160,7 @@ if __name__ == "__main__":
     group_dict = sort_groups_csv("examplemailinglist.csv")
 
     options = webdriver.ChromeOptions()
-    # options.add_argument("--kiosk")
+    options.add_argument("--kiosk")
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
 
     abs_driver_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "chromedriver")
